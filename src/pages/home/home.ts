@@ -11,4 +11,12 @@ export class HomePage {
 
   }
 
+  onLoginAdmin():void {
+  this.navCtrl.push('AdminLoginPage');
+}
+
+  onCarregaAtividade():void {
+    this.navCtrl.push('UserlocalizaQuizPage');
+  }
+
 }

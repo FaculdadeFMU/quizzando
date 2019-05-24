@@ -1,0 +1,37 @@
+<ion-content padding>
+  <div padding style="margin-top: 20%;">
+    <div align="center">
+      <h1 style="font-family: KG Second Chances Sketch !important; font-size: 30px; color:rgb(112, 23, 97);">Vamos jogar?</h1>
+    </div>
+
+    <div align="center">
+        <ion-img src="../../assets/imgs/fmu-fiamfaam.png" ></ion-img>
+    </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+            <ion-input  placeholder="Codigo da atividade" style="border-bottom: 2px solid aqua" type="text" ></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <ion-input placeholder="Codigo do grupo" style="border-bottom: 2px solid aqua" type="text" ></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div align="center">
+            <button style="background-color: rgb(112, 23, 97)" ion-button secondary (click)="onLocalizarGrupoPerguntas()" >Quizzar</button>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div align="center">
+              <span><a (click)="onRegisterGroup()">Registrar grupo</a></span>
+            </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

@@ -1,0 +1,33 @@
+<ion-content padding>
+    <ion-card style="border: solid 1px silver; border-radius: 15px; padding: 30px; margin-top: 40%;">
+      <div align="center">
+        <h1 style="font-family: KG Second Chances Sketch !important; font-size: 50px; color:rgb(112, 23, 97);">Login</h1>
+      </div>
+      <ion-grid >
+        <ion-row>
+          <ion-col>
+              <ion-input  placeholder="Usuário" style="border-bottom: 2px solid aqua" type="text" ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+              <ion-input placeholder="Senha" style="border-bottom: 2px solid aqua" type="text" ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+              <div align="center" style="margin-top: 20px;">
+                <button style="background-color: rgb(112, 23, 97); pagging: 20px;" ion-button secondary (click)="onHomeAdmin()">Entrar</button>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <div align="center">
+                <span><a (click)="onRegister()">Registre-se</a></span>
+              </div>
+            </ion-col>
+          </ion-row>
+      </ion-grid>
+    </ion-card>
+  </ion-content>

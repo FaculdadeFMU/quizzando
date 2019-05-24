@@ -1,0 +1,28 @@
+<ion-content>
+  <ion-card style="border: solid 1px silver; border-radius: 15px; padding: 30px; margin-top: 20%;">
+    <div align="center">
+      <h1 style="font-family: KG Second Chances Sketch !important; font-size: 30px; color:rgb(112, 23, 97);">Cadastre o Grupo</h1>
+    </div>
+    <form padding (ngSubmit)="logForm()">
+      <ion-item style="background-color: rgb(112, 23, 97); color:white;">
+        <ion-input  placeholder="Nome do Grupo" type="text" [(ngModel)]="formGrupUser.nomeGrupo" name="Digite o nome Completo"></ion-input>
+      </ion-item>
+      <ion-item>
+         <hr style="height:5px; border:none; color:rgb(112, 23, 97); background-color:rgb(112, 23, 97); margin-top: 0px; margin-bottom: 0px;">
+      </ion-item>
+      <ion-item style="border-bottom: 2px solid aqua !important;">
+        <ion-input  placeholder="Nome" type="text" [(ngModel)]="formGrupUser.nome" name="Digite seu nome" required="true"></ion-input>
+      </ion-item>
+      <ion-item style="border-bottom: 2px solid aqua !important;">
+        <ion-input  placeholder="Email" type="email" [(ngModel)]="formGrupUser.email" name="Digite seu email" required="true"></ion-input>
+      </ion-item>
+      <ion-item style="border-bottom: 2px solid aqua !important;">
+        <ion-input  placeholder="RA" type="text" [(ngModel)]="formGrupUser.RA" name="Digite seu Ra" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <button style="background-color: rgb(112, 23, 97)" ion-button secondary ><ion-icon name="add-circle"></ion-icon></button>
+      </ion-item>
+      <button style="background-color: rgb(112, 23, 97); pagging: 20px; margin-top:20px;" ion-button type="submit" block>Cadastrar</button>
+    </form>
+  </ion-card>
+</ion-content>

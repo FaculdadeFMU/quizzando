@@ -7,12 +7,21 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content padding style="background-color: #13B0A5 ">
+    <div align="center" style="margin-top: 15%">
+        <h3 style="font-family:KG Second Chances Sketch !important; font-size: 55px; color:white">Quizzando</h3>
+    </div>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+    <ion-grid style="margin-top: 20%">
+      <ion-row>
+        <ion-col>
+            <button style="background-color: rgb(112, 23, 97); border-radius: 20px; color:rgb(255, 255, 255)" ion-button full icon-left (click)="onLoginAdmin()">Administrar</button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <button style="background-color: rgb(112, 23, 97); border-radius: 20px; color: rgb(255, 255, 255)" ion-button full icon-left (click)="onCarregaAtividade()">Jogar</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 </ion-content>

@@ -1,0 +1,70 @@
+<ion-header>
+
+</ion-header>
+
+<ion-content padding >
+
+  <ion-card style="border-radius: 15px; background-color: rgb(112, 23, 97); color:white; padding: 2%;">
+    <div align="center">
+      <b>Locuragem</b>
+    </div>
+    <ion-grid style="margin-top: 8px;">
+      <ion-row>
+        <ion-col size="1" offset="3">
+            <ion-img src="../../assets/imgs/índice.png" ></ion-img>
+        </ion-col>
+        <ion-col size="2" offset="3">
+            <table  style="height: 8em;">
+              <tr>
+                <td>
+                  Alessandra Kuhlmann
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Eryk Pedroso
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Leonardo Guedes
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Luana Dumond
+                </td>
+              </tr>
+            </table>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+
+
+
+    <div align="left">
+      <span style="color:#13B0A5; font-size: 15px;" ><b>Atividade:</b></span>
+    </div>
+    <div align="center" style="margin: 5%">
+      <h3 style="font-family: Pacifico !important; font-size: 33px; color:#13B0A5">Rally do Conhecimento</h3>
+    </div>
+
+    <ion-grid style="margin-top: 20%">
+      <div *ngIf="jogoIniciado">
+        <ion-row>
+          <ion-col>
+              <button style="background-color: rgb(112, 23, 97); border-radius: 20px; color:rgb(255, 255, 255)" ion-button full icon-left (click)="onPergunta()">Perguntas</button>
+          </ion-col>
+        </ion-row>
+      </div>
+      <ion-row>
+        <ion-col>
+            <button style="background-color: rgb(112, 23, 97); border-radius: 20px; color: rgb(255, 255, 255)" ion-button full icon-left (click)="onRanking()">Painel do ranking</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+</ion-content>

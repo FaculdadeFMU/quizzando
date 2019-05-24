@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>adminRegister</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card style="border: solid 1px silver; border-radius: 15px; padding: 30px; margin-top: 20%;">
+    <div align="center">
+      <h1 style="font-family: KG Second Chances Sketch !important; font-size: 30px; color:rgb(112, 23, 97);">Cadastre-se</h1>
+   </div>
+    <form padding (ngSubmit)="logForm()">
+      <ion-item style="border-bottom: aqua;">
+        <ion-input  placeholder="Nome completo" type="text" [(ngModel)]="formAdmin.fullName" name="Digite seu nome completo"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input  placeholder="Email" type="email" [(ngModel)]="formAdmin.email" name="Digite seu email" required="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input  placeholder="Senha" type="password" [(ngModel)]="formAdmin.senha" name="Digite sua senha" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input  placeholder="Confirmação da senha" type="password" [(ngModel)]="formAdmin.confirmacaoSenha" name="Digite sua senha" required></ion-input>
+      </ion-item>
+      <button style="background-color: rgb(112, 23, 97); pagging: 20px; margin-top:20px;" ion-button type="submit" block>Cadastrar</button>
+    </form>
+  </ion-card>
+</ion-content>

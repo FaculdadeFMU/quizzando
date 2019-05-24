@@ -1,0 +1,27 @@
+
+<ion-content padding style="background-color: white ">
+
+  <ion-card style="border-radius: 15px; margin-top: 20%; background-color:#a9a9a9; color:white; padding: 5%;">
+    <div align="center">
+      <span ><b>Aew galera!</b></span>
+    </div>
+    <div align="justify">
+      <span><br /> Seguinte, esse jogo é divido em grupos de perguntas onde cada grupo contem algumas perguntas e para acessar cada um desse grupos, basta escanear o QRCode ou até digitar o codigo desse grupo de perguntas.</span>
+    </div>
+
+  </ion-card>
+
+  <div align="center"  style="margin-top: 10%">
+    <button  size="large" style="background-color: rgb(112, 23, 97); border-radius: 20px; color:rgb(255, 255, 255)" ion-button full icon-left (click)="onGetBarcode()"><ion-icon name="qr-scanner" size="large"></ion-icon>Scanear</button>
+    <button  size="large" style="background-color: rgb(112, 23, 97); border-radius: 20px; color:rgb(255, 255, 255)" ion-button full icon-left (click)="onPainel()">Digite o código</button>
+  </div>
+
+  <div *ngIf="scannedCode">
+    <p>
+      Scanned Code Text : <b>{{scannedCode["text"] }}</b>
+    </p>
+    <p>
+      Scanned Code Format : <b>{{scannedCode["format"] }}</b>
+    </p>
+  </div>
+</ion-content>
