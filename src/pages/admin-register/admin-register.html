@@ -11,7 +11,7 @@
    </div>
     <form padding (ngSubmit)="logForm()">
       <ion-item style="border-bottom: aqua;">
-        <ion-input  placeholder="Nome completo" type="text" [(ngModel)]="formAdmin.fullName" name="Digite seu nome completo"></ion-input>
+        <ion-input  placeholder="Nome completo" type="text" [(ngModel)]="formAdmin.nome" name="Digite seu nome completo"></ion-input>
       </ion-item>
       <ion-item>
         <ion-input  placeholder="Email" type="email" [(ngModel)]="formAdmin.email" name="Digite seu email" required="true"></ion-input>
@@ -22,7 +22,7 @@
       <ion-item>
         <ion-input  placeholder="Confirmação da senha" type="password" [(ngModel)]="formAdmin.confirmacaoSenha" name="Digite sua senha" required></ion-input>
       </ion-item>
-      <button style="background-color: rgb(112, 23, 97); pagging: 20px; margin-top:20px;" ion-button type="submit" block>Cadastrar</button>
+      <button style="background-color: rgb(112, 23, 97); pagging: 20px; margin-top:20px;" ion-button type="submit"(click)=saveCad() block>Cadastrar</button>
     </form>
   </ion-card>
 </ion-content>

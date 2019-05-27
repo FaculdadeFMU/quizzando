@@ -15,9 +15,9 @@ import { FormGroup } from '@angular/forms';
   templateUrl: 'admin-register.html',
 })
 export class AdminRegisterPage {
-
+  private url: string = 'http://localhost:8888/inputBasico'
   public formAdmin = {
-    fullName: '',
+    nome: '',
     email: '',
     senha: '',
     confirmacaoSenha: ''
@@ -26,13 +26,18 @@ export class AdminRegisterPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AdminRegisterPage');
-  }
-
   logForm(): void{
     console.log(this.formAdmin);
   }
-
+  async saveCad(formAdmin) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const form = new FormData();
+    Object.keys(this.formAdmin).map((key) => {
+      form.append(key, this.formAdmin[key]);
+    })
+    const res = await (await fetch(`${this.url}?confirmacaoSenha=${this.formAdmin.confirmacaoSenha}&email=${this.formAdmin.email}&nome=${this.formAdmin.nome}&senha=${this.formAdmin.senha}`)).json();
+     console.log(res);
+     this.navCtrl.push("AdminLoginPage");
+  }
 }

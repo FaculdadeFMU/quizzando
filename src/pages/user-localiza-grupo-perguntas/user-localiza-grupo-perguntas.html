@@ -1,27 +1,40 @@
 
 <ion-content padding style="background-color: white ">
 
-  <ion-card style="border-radius: 15px; margin-top: 20%; background-color:#a9a9a9; color:white; padding: 5%;">
-    <div align="center">
-      <span ><b>Aew galera!</b></span>
+    <div align="center" style="margin-top: 40px; ">
+        <h1 style="font-family: KG Second Chances Sketch !important; font-size: 30px; color:rgb(112, 23, 97);">Grupos de perguntas</h1>
     </div>
-    <div align="justify">
-      <span><br /> Seguinte, esse jogo é divido em grupos de perguntas onde cada grupo contem algumas perguntas e para acessar cada um desse grupos, basta escanear o QRCode ou até digitar o codigo desse grupo de perguntas.</span>
+   <div *ngIf="parteEscaner" >
+    <ion-card style="border-radius: 15px; margin-top: 10%; background-color:#a9a9a9; color:white; padding: 5%;">
+      <div align="center">
+        <span ><b>Aew galera!</b></span>
+      </div>
+      <div align="justify">
+        <span><br /> Seguinte, esse jogo é divido em grupos de perguntas onde cada grupo contem algumas perguntas e para acessar cada um desse grupos, basta escanear o QRCode ou até digitar o codigo desse grupo de perguntas.</span>
+      </div>
+
+    </ion-card>
+
+    <div align="center"  style="margin-top: 10%">
+      <button  size="large" style="background-color: rgb(112, 23, 97); border-radius: 20px; color:rgb(255, 255, 255)" ion-button full icon-left (click)="onGetBarcode()"><ion-icon name="qr-scanner" size="large"></ion-icon>Scanear</button>
+      <button  size="large" style="background-color: rgb(112, 23, 97); border-radius: 20px; color:rgb(255, 255, 255)" ion-button full icon-left (click)="onDigitarNumGrupo()">Digite o código</button>
     </div>
-
-  </ion-card>
-
-  <div align="center"  style="margin-top: 10%">
-    <button  size="large" style="background-color: rgb(112, 23, 97); border-radius: 20px; color:rgb(255, 255, 255)" ion-button full icon-left (click)="onGetBarcode()"><ion-icon name="qr-scanner" size="large"></ion-icon>Scanear</button>
-    <button  size="large" style="background-color: rgb(112, 23, 97); border-radius: 20px; color:rgb(255, 255, 255)" ion-button full icon-left (click)="onPainel()">Digite o código</button>
   </div>
 
-  <div *ngIf="scannedCode">
-    <p>
-      Scanned Code Text : <b>{{scannedCode["text"] }}</b>
-    </p>
-    <p>
-      Scanned Code Format : <b>{{scannedCode["format"] }}</b>
-    </p>
+  <div *ngIf="numeroGrupoExibir">
+    <ion-grid>
+      <ion-row>
+          <ion-col>
+              <ion-input placeholder="Codigo do grupo" [(ngModel)]="codigoGrupoPerguntas" type="text" name="Digite numero do grupo"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+              <button  size="large" style="background-color: rgb(112, 23, 97); border-radius: 20px; color:rgb(255, 255, 255)" ion-button full icon-left (click)="onPainel()">Jogar</button>
+            </ion-col>
+          </ion-row>
+    </ion-grid>
+
   </div>
+
 </ion-content>

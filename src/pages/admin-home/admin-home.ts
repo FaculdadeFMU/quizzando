@@ -13,9 +13,11 @@ export class AdminHomePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AdminHomePage');
+    let teste = this.navParams.get('userId');
+    console.log('Id do Usuário: ' + teste);
   }
 
   onCasdastrarAtividade():void {
-    this.navCtrl.push('AdminCadastrarAtividadePage');
+    this.navCtrl.push('AdminCadastrarAtividadePage',{userId:this.navParams.get('userId')});
   }
 }

@@ -9,6 +9,9 @@ import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner
 })
 export class UserLocalizaGrupoPerguntasPage {
 
+  codigoGrupoPerguntas : string;
+  numeroGrupoExibir : boolean = false;
+  parteEscaner : boolean = true;
   barcodeResult : BarcodeScanResult;
 
   constructor(
@@ -34,6 +37,11 @@ export class UserLocalizaGrupoPerguntasPage {
       }).catch((error: Error) => {
         console.log('Erro no BarcodeScanner: ', error);
       });
+  }
+
+  onDigitarNumGrupo(){
+    this.numeroGrupoExibir = true;
+    this.parteEscaner = false;
   }
 
 }

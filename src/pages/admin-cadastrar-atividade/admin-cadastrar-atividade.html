@@ -9,65 +9,150 @@
     <div align="center">
       <h1 style="font-family: KG Second Chances Sketch !important; font-size: 30px; color:rgb(112, 23, 97);">Cadastra atividades</h1>
     </div>
-    <ion-grid class="distancia-top">
-      <ion-row>
-        <ion-input  class="border-bottom" placeholder="Nome da atividade" type="text" [(ngModel)]="formAtividade.nomeAtividade" name="Digite o nome da atividade"></ion-input>
-      </ion-row>
-      <ion-row>
-        <ion-input  class="border-bottom" placeholder="Integrantes por grupo" type="number" [(ngModel)]="formAtividade.qtdIntegrantes" name="Digite a quantidade de pessoas no grupo" required="true"></ion-input>
-      </ion-row>
-      <div style="margin-top: 15px; border-bottom: 2px solid rgb(112, 23, 97);"></div>
-      <ion-row>
-        <div style="margin-top: 20px;border-bottom: 2px solid rgb(112, 23, 97);"></div>
-        <ion-col size="2" offset="1">
-          <div style="float:left; margin-top: 5px; width: 180%;">
-            <span>Deseja adicionar grupos de perguntas?</span>
-          </div>
-        </ion-col>
-        <ion-col size="2" offset="2">
-          <div style="float:right;">
-            <ion-toggle color="secondary" [(ngModel)]="pepperoni"></ion-toggle>
-          </div>
-        </ion-col>
-      </ion-row>
+    <div *ngIf="primeiraParte">
+      <ion-grid class="distancia-top">
+        <ion-row>
+          <ion-input  class="border-bottom" placeholder="Nome da atividade" type="text" [(ngModel)]="nomeAtividade" name="Digite o nome da atividade"></ion-input>
+        </ion-row>
+      </ion-grid>
+
+      <div    style="margin-top: 15px" align="center">
+        <button style="background-color: rgb(112, 23, 97)" ion-button secondary (click)="saveActivity()">Proximo passo<ion-icon style="margin-left:15px;" name="md-fastforward"></ion-icon></button>
+      </div>
+    </div>
+    <div *ngIf="segundaParte">
+      <ion-grid>
+        <!--ion-row>
+          <ion-input  class="border-bottom" placeholder="Integrantes por grupo" type="number" [(ngModel)]="formAtividade.qtdIntegrantes" name="Digite a quantidade de pessoas no grupo" required="true"></ion-input>
+        </ion-row-->
+        <div style="margin-top: 15px; border-bottom: 2px solid rgb(112, 23, 97);"></div>
+        <ion-row>
+          <div style="margin-top: 20px;border-bottom: 2px solid rgb(112, 23, 97);"></div>
+          <ion-col size="2" offset="1">
+            <div style="float:left; margin-top: 5px; width: 180%;">
+              <span>Deseja adicionar grupos de perguntas?</span>
+            </div>
+          </ion-col>
+          <ion-col size="2" offset="2">
+            <div style="float:right;">
+              <ion-toggle color="secondary" [(ngModel)]="pepperoni"></ion-toggle>
+            </div>
+          </ion-col>
+        </ion-row>
+        <div style="border-bottom: 2px solid rgb(112, 23, 97);"></div>
+      </ion-grid>
+
+
+      <ion-grid *ngIf="pepperoni">
+        <ion-row>
+          <ion-col size="1" offset="2">
+            <div style="width: 180%">
+              <ion-input class="border-bottom" placeholder="Nome do grupo" id="nomeGrupo" [(ngModel)]="nomeGrupoTela" type="text" ></ion-input>
+            </div>
+          </ion-col>
+          <ion-col size="2" offset="2">
+            <div style="margin-left: 90%; margin-top: 10%;">
+              <button style="background-color: rgb(112, 23, 97); height: 25px; padding:5px;" (click)="addGroupList()" ion-button secondary ><ion-icon name="add-circle"></ion-icon></button>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-list>
+          <ion-item  *ngFor="let valor of lstGrupos">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="2" offSet="1">
+                  {{valor.nomeGrupo}}
+                </ion-col>
+                <ion-col size="2" offSet="1">
+                <ion-icon style="font-size: 30px;" name="trash"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+      </ion-list>
+
+      <div style="margin-top: 15px" align="center">
+        <button style="background-color: rgb(112, 23, 97)" ion-button secondary (click)="onPassoPerguntas()">Proximo passo<ion-icon style="margin-left:15px;" name="md-fastforward"></ion-icon></button>
+      </div>
+    </div>
+
+    <!--Valor Cadastrando as perguntas-->
+    <div *ngIf="terceiraParte ">
+      <ion-grid class="distancia-top">
       <div style="border-bottom: 2px solid rgb(112, 23, 97);"></div>
-    </ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-select class="border-bottom" placeholder="Selecione o grupo" id="grupoSelecionado" [(ngModel)]="grupoSelecionado" >
+              <ion-option disabled>Escolha um grupo</ion-option>
+              <div *ngFor="let grupo of lstGrupos">
+                <ion-option  value="{{grupo}}">{{grupo.nomeGrupo}}</ion-option>
+              </div>
+            </ion-select>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-textarea placeholder="Digite a pergunta" id="pergunta" [(ngModel)]="perguntaPagina"></ion-textarea>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input class="border-bottom" placeholder="Alternatia A" id="altA" [(ngModel)]="altA" type="text" ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+              <ion-input class="border-bottom" placeholder="Alternatia B" id="altB" [(ngModel)]="altB" type="text" data-uib="ionic/input" data-ver="0" ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+              <ion-input class="border-bottom" placeholder="Alternatia C" id="altC" [(ngModel)]="altC" type="text" ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+              <ion-input class="border-bottom" placeholder="Alternatia D" id="altD" [(ngModel)]="altD" type="text" ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-select class="border-bottom" placeholder="Alternatia Correta" id="altCorreta" [(ngModel)]="altCorreta" >
+                  <ion-option disabled>Escolha a alternativa correta</ion-option>
+                    <ion-option>A</ion-option>
+                    <ion-option>B</ion-option>
+                    <ion-option>C</ion-option>
+                    <ion-option>D</ion-option>
+                </ion-select>
+            </ion-col>
+          </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-col size="2" offset="2">
+              <div align="center">
+                <button style="background-color: rgb(112, 23, 97); height: 25px; padding:5px;" (click)="adicionarPerguntas()" ion-button secondary >Adicionar questão<ion-icon name="add-circle"></ion-icon></button>
+              </div>
+            </ion-col>
+          </ion-col>
+        </ion-row>
+        <div style="border-bottom: 2px solid rgb(112, 23, 97);"></div>
+      </ion-grid>
 
-
-    <ion-grid *ngIf="pepperoni">
-      <ion-row>
-        <ion-col size="1" offset="2">
-          <div style="width: 180%">
-            <ion-input class="border-bottom" placeholder="Nome do grupo" id="nomeGrupo" type="text" ></ion-input>
-          </div>
-        </ion-col>
-        <ion-col size="2" offset="2">
-          <div style="margin-left: 90%; margin-top: 10%;">
-            <button style="background-color: rgb(112, 23, 97); height: 25px; padding:5px;" (click)="addGroupList()" ion-button secondary ><ion-icon name="add-circle"></ion-icon></button>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-  <ion-list>
-      <ion-item  *ngFor="let grupo of lstNomeGrupos">
+      <div style="margin-top: 10%;" align="center">
         <ion-grid>
           <ion-row>
-            <ion-col size="2" offSet="1">
-              {{grupo}}
+            <ion-col size="2" offset="1">
+              <button style="background-color: rgb(112, 23, 97); float:left; font-size:12px; margin-top:15%;" ion-button (click)="onVoltarPasso()">Voltar</button>
             </ion-col>
-            <ion-col size="2" offSet="1">
-             <ion-icon style="font-size: 30px;" name="trash"></ion-icon>
+            <ion-col size="2" offset="1">
+              <button style="background-color: rgb(112, 23, 97); float:right; margin-left: 50%;" ion-button (click)="finalizaCadastro()" >Salvar atividade<ion-icon small style="margin-left:15px;" name="md-checkmark"></ion-icon></button>
             </ion-col>
           </ion-row>
         </ion-grid>
-      </ion-item>
-  </ion-list>
-
-    <div style="margin-top: 20%;" align="center">
-      <button style="background-color: rgb(112, 23, 97)" ion-button secondary>Proximo passo<ion-icon style="margin-left:15px;" name="md-fastforward"></ion-icon></button>
+      </div>
     </div>
   </ion-card>
-
 
 </ion-content>

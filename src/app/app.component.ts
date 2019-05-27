@@ -16,7 +16,6 @@ export class MyApp {
   rootPage: any = SplashScreenPage;
 
   pages: Array<{title: string, component: any}>;
-  showSplash= true;
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 

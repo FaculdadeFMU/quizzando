@@ -18,6 +18,6 @@ export class SplashScreenPage {
     setTimeout(()=> {
       this.splash = false;
       this.navCtrl.push(HomePage);
-    },4000);
+    },8000);
   }
 }
