@@ -17,7 +17,7 @@
       </ion-grid>
 
       <div    style="margin-top: 15px" align="center">
-        <button style="background-color: rgb(112, 23, 97)" ion-button secondary (click)="saveActivity()">Proximo passo<ion-icon style="margin-left:15px;" name="md-fastforward"></ion-icon></button>
+        <button style="background-color: rgb(112, 23, 97)" ion-button secondary (click)="onPassoGrupoPerguntas()">Proximo passo<ion-icon style="margin-left:15px;" name="md-fastforward"></ion-icon></button>
       </div>
     </div>
     <div *ngIf="segundaParte">
@@ -87,7 +87,7 @@
             <ion-select class="border-bottom" placeholder="Selecione o grupo" id="grupoSelecionado" [(ngModel)]="grupoSelecionado" >
               <ion-option disabled>Escolha um grupo</ion-option>
               <div *ngFor="let grupo of lstGrupos">
-                <ion-option  value="{{grupo}}">{{grupo.nomeGrupo}}</ion-option>
+                <ion-option  value="{{grupo.id_grupo}}">{{grupo.nomeGrupo}}</ion-option>
               </div>
             </ion-select>
           </ion-col>
@@ -125,6 +125,7 @@
                     <ion-option>B</ion-option>
                     <ion-option>C</ion-option>
                     <ion-option>D</ion-option>
+                    <ion-option>Todas as alternatia</ion-option>
                 </ion-select>
             </ion-col>
           </ion-row>
@@ -147,7 +148,7 @@
               <button style="background-color: rgb(112, 23, 97); float:left; font-size:12px; margin-top:15%;" ion-button (click)="onVoltarPasso()">Voltar</button>
             </ion-col>
             <ion-col size="2" offset="1">
-              <button style="background-color: rgb(112, 23, 97); float:right; margin-left: 50%;" ion-button (click)="finalizaCadastro()" >Salvar atividade<ion-icon small style="margin-left:15px;" name="md-checkmark"></ion-icon></button>
+              <button style="background-color: rgb(112, 23, 97); float:right; margin-left: 50%;" ion-button (click)="finalizaCadastro()" >Concluir cadastro<ion-icon small style="margin-left:15px;" name="md-checkmark"></ion-icon></button>
             </ion-col>
           </ion-row>
         </ion-grid>

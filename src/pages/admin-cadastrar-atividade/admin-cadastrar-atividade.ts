@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { e } from '@angular/core/src/render3';
 
 /**
  * Generated class for the AdminCadastrarAtividadePage page.
@@ -18,6 +19,7 @@ export class AdminCadastrarAtividadePage {
   //valor primeira parte
   nomeAtividade: string;
 
+
   public obj = {
     nomeAtividade: '',
     usuario_id: ''
@@ -25,12 +27,12 @@ export class AdminCadastrarAtividadePage {
 
   //Valor da segunda parte
   nomeGrupoTela: string;
-  idAtividade : string;
+  public idAtividade : string;
 
+  //Recebe os valores da query
   public grupo = {
     nomeGrupo : '',
     atividade_id : ''
-
   }
   lstGrupos =[];
 
@@ -46,9 +48,10 @@ export class AdminCadastrarAtividadePage {
 
 
   //Variaveis de conexão
-  private url: string ='http://127.0.0.1:8889/inputAtividade'
-  private url1: string ='http://127.0.0.1:8889/getatividade'
-  private urlInputGrupos: string ='http://127.0.0.1:8889/inputGrupos'
+  private url: string ='http://localhost:8889/inputAtividade'
+  private url1: string ='http://localhost:8889/getatividade'
+  private urlInputGrupos: string ='http://localhost:8889/inputGrupos'
+  private urlInputPerguntas : string = 'http://localhost:8889/inputPerguntas'
 
 
   //controla a pagina
@@ -96,38 +99,62 @@ export class AdminCadastrarAtividadePage {
     Object.keys(this.obj).map((key) => {
       form.append(key,this.obj[key]);
     })
+
     const res = await (await fetch(`${this.url}?nomeAtividade=${this.obj.nomeAtividade}&usuario_id=${this.obj.usuario_id}`)).json();
 
+    if(res.statusCode == 200){
+      const {data}=res;
+      this.idAtividade = data.insertId;
+    }
 
-     if(res.statusCode == 200){
-       const {data}=res;
-       localStorage.setItem('atividadeinfo', JSON.stringify(data));
-
-       //Desabilita compoentes da pagina.
-       this.primeiraParte = false;
-       this.segundaParte = true;
-     }
   }
 
   async saveGroup(){
-    console.log('valor do grupo: ' + this.grupo);
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     const form = new FormData();
     Object.keys(this.grupo).map((key) => {
       form.append(key,this.grupo[key]);
     })
-    const res = await (await fetch(`${this.urlInputGrupos}?nomeAtividade=${this.grupo.nomeGrupo}&atividade_id=1`)).json();
-     console.log(res);
-     if(res.statusCode == 200){
-       const retornoGrupo =  await (await fetch(`${this.urlInputGrupos}?nomeAtividade=${this.grupo.nomeGrupo}&atividade_id=1`)).json();
-       const {data} = retornoGrupo;
-       localStorage.setItem('grupoPerguntainfo', JSON.stringify(data));
 
-       //Desabilita compoentes da pagina.
-       this.segundaParte = false;
-       this.terceiraParte = true;
-     }
+   //Query dos grupos
+   const res = await (await fetch(`${this.urlInputGrupos}?nomeGrupo=${this.grupo.nomeGrupo}&atividade_id=${this.grupo.atividade_id}`)).json();
+   console.log(res.statusCode);
+    if(res.statusCode == 200){
+       const {data} = res;
+       console.log('Grupo atual tem o codigo: ' + data.insertId);
+       this.lstGrupos.push({nomeGrupo: this.nomeGrupoTela, atividade_id : this.idAtividade, id_grupo : data.insertId});
+       console.log('Deu certo!');
+    }
+
+    //Limpa o campo na tela.
+    this.nomeGrupoTela = '';
+  }
+
+  async saveQuestion(){
+
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const form = new FormData();
+    Object.keys(this.grupo).map((key) => {
+      form.append(key,this.grupo[key]);
+    })
+
+   //Query dos grupos
+   const res = await (await fetch(`${this.urlInputPerguntas}?enunciado=${this.pergunta.pergunta}&alternativaA=${this.pergunta.alternativaA}&alternativaB=${this.pergunta.alternativaB}&alternativaC=${this.pergunta.alternativaC}&alternativaD=${this.pergunta.alternativaD}&altCorreta=${this.pergunta.alternativaCorreta}&grupoPerguntas_id=${this.pergunta.nomeGrupo}`)).json();
+   console.log(res.statusCode);
+   if(res.statusCode == 200){
+       const {data} = res;
+      console.log('Mano, a questão ta no banco já.. ');
+      //Limpa os valores.
+      this.grupoSelecionado = '';
+      this.perguntaPagina = '';
+      this.altA = '';
+      this.altB = '';
+      this.altC = '';
+      this.altD = '';
+      this.altCorreta = '';
+   }
   }
 
   ionViewDidLoad() {
@@ -135,12 +162,9 @@ export class AdminCadastrarAtividadePage {
   }
 
   addGroupList(): void {
-    this.grupo.nomeGrupo = this.nomeGrupoTela;
-    this.grupo.atividade_id = '1';
 
-    this.lstGrupos.push(this.grupo);
-
-    //this.saveGroup();
+    this.grupo = ({nomeGrupo: this.nomeGrupoTela, atividade_id : this.idAtividade});
+    this.saveGroup();
 
     this.lstGrupos.forEach(function (item, indice, array) {
       console.log(item, indice);
@@ -153,37 +177,18 @@ export class AdminCadastrarAtividadePage {
 
   adicionarPerguntas(): void{
 
-    this.pergunta = {nomeGrupo : "\""+this.grupoSelecionado+"\"",
-                    pergunta:"\""+this.perguntaPagina+"\"",
-                    alternativaA : "\""+this.altA+"\"",
-                    alternativaB : "\""+this.altB+"\"",
-                    alternativaC : "\""+this.altC+"\"",
-                    alternativaD : "\""+this.altD+"\"",
-                    alternativaCorreta :  "\""+this.altCorreta+"\""
+    this.pergunta = {nomeGrupo : this.grupoSelecionado,
+                    pergunta: this.perguntaPagina,
+                    alternativaA : this.altA,
+                    alternativaB : this.altB,
+                    alternativaC : this.altC,
+                    alternativaD : this.altD,
+                    alternativaCorreta : this.altCorreta
                     };
 
-    this.lstPerguntas.push(this.pergunta);
+      console.log('pergunta esta assim: ' + this.pergunta.alternativaA);
 
-    console.log('lista de perguntas: ' + JSON.stringify(this.lstPerguntas));
-
-    console.log('Lista de perguntas grupo: ' + this.pergunta.nomeGrupo);
-    console.log('Lista de perguntas pergunta: ' +  this.pergunta.pergunta);
-    console.log('Lista de perguntas alt A: ' +  this.pergunta.alternativaA);
-    console.log('Lista de perguntas alt B: ' +  this.pergunta.alternativaB);
-    console.log('Lista de perguntas alt C: ' +  this.pergunta.alternativaC);
-    console.log('Lista de perguntas alt D: ' +  this.pergunta.alternativaD);
-    console.log('Lista de perguntas alt D: ' +  this.pergunta.alternativaCorreta);
-
-    this.grupoSelecionado = '';
-    this.perguntaPagina = '';
-    this.altA = '';
-    this.altB = '';
-    this.altC = '';
-    this.altD = '';
-    this.altCorreta = '';
-
-
-
+      this.saveQuestion();
   }
 
   logForm():void{
@@ -202,8 +207,17 @@ export class AdminCadastrarAtividadePage {
 
   }
 
+  onPassoGrupoPerguntas(){
+
+    this.saveActivity();
+    this.primeiraParte = false;
+    this.segundaParte = true;
+
+  }
+
   onPassoPerguntas(){
 
+    this.saveGroup();
     this.segundaParte = false;
     this.terceiraParte = true;
 

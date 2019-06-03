@@ -82,8 +82,9 @@ app.get
       retornoAtividadeSQL.inputAtividade()
     }
   )
-  app.get
-(
+
+app.get
+ (
   '/getatividade',
   function ({ query: {nomeAtividade,usuario_id} }, res) {
     console.log('atividade: ' + nomeAtividade);
@@ -105,7 +106,7 @@ app.get
 
 app.get
   (
-    '/inputGrupos',
+    '/inputgrupos',
     function ({ query: { nomeGrupo, atividade_id } }, res) {
       var _dbConnection = dbConnection();
       var _callback = function (error, result) {
@@ -118,7 +119,53 @@ app.get
 
       }
       var retornoinsertGruposSQL = new insertGruposSQL(_dbConnection, _callback);
-      retornoinsertGruposSQL.inputperguntas()
+      retornoinsertGruposSQL.inputgrupos()
+    }
+  )
+
+app.get
+  (
+    '/inputPerguntas',
+    function ({ query: { enunciado, alternativaA, alternativaB, alternativaC, alternativaD, altCorreta, grupoPerguntas_id } }, res) {
+      console.log('Chegou aqui nos perguntas');
+      var _dbConnection = dbConnection();
+      var _callback = function (error, result) {
+        return {
+          _dbConnection,
+          res,
+          enunciado,
+          alternativaA,
+          alternativaB,
+          alternativaC,
+          alternativaD,
+          altCorreta,
+          grupoPerguntas_id
+        };
+
+      }
+      var retornoinsertPerguntaSQL = new insertPerguntaSQL(_dbConnection, _callback);
+      retornoinsertPerguntaSQL.inputPergunta()
+    }
+  )
+
+  app.get
+  (
+    '/inputIntegrantes',
+    function ({ query: {nome,email,RA,idGrupo} }, res) {
+      var _dbConnection = dbConnection();
+      var _callback = function (error, result) {
+        return {
+          _dbConnection,
+          res,
+          nome,
+          email,
+          RA,
+          idGrupo
+         };
+
+      }
+      var retornoInsertIntegrantesSQL = new insertIntegrantesSQL(_dbConnection, _callback);
+      retornoInsertIntegrantesSQL.inputIntegrantes()
     }
   )
 
@@ -136,6 +183,24 @@ app.get
         retornoPerguntasSQL.getPergunta()
     }
 )
+
+app.get
+  (
+    '/inputGrupoPessoas',
+    function ({ query: { nomeGrupo, id_atividade } }, res) {
+      var _dbConnection = dbConnection();
+      var _callback = function (error, result) {
+        return {
+          _dbConnection,
+          res,
+          nomeGrupo,
+          id_atividade
+        };
+      }
+      var retornoinsertGrupoPessoasSQL = new insertGrupoPessoasSQL(_dbConnection, _callback);
+      retornoinsertGrupoPessoasSQL.inputGrupoPessoa()
+    }
+  )
 
 app.get
 (
@@ -158,13 +223,20 @@ app.get
 var dbConnection = function () {
     return mysql.createConnection
     (
-        {
-            host: 'remotemysql.com',
-            user: 'kIfd1zU98D',
-            password: 'XaWzzW5Vvu',
-            database: 'kIfd1zU98D',
+        /*{
+            host: 'sql220.main-hosting.eu',
+            user: 'u111856810_quizz',
+            password: 'quizzando2',
+            database: 'u111856810_quizz',
             multipleStatements: true,
 
+        }*/
+        {
+          host: 'remotemysql.com',
+          user: 'kIfd1zU98D',
+          password: 'XaWzzW5Vvu',
+          database: 'kIfd1zU98D',
+          multipleStatements: true,
         }
     )
 }
@@ -223,12 +295,20 @@ AtividadeSQL.prototype.inputAtividade = function () {
   const callbackRes = this._callback();
   callbackRes._dbConnection.query
     (
-      "INSERT INTO `atividade`(`nomeAtividade`,`usuario_id`) VALUES ('"+callbackRes.nomeAtividade+"','"+callbackRes.usuario_id+"')",
+      "INSERT INTO `atividade`(`nomeAtividade`,`usuario_id`) VALUES ('"+callbackRes.nomeAtividade+"','"+callbackRes.usuario_id+"')", function(err, result, fields){
+        if (err) {
+          // handle error
+        }else{
+           // Your row is inserted you can view
+          console.log(result.insertId);
+          callbackRes.res.status(200).send({
+            success: 'Usuário inserido com sucesso',
+            statusCode: 200,
+            data : result
+          });
+        }
+      }
     );
-  callbackRes.res.status(200).send({
-    success: 'Usuário inserido com sucesso',
-    statusCode: 200,
-  });
 }
 
 function AtividadebuscaSQL(dbConnection, callback) {
@@ -266,14 +346,98 @@ function insertGruposSQL(dbConnection, callback) {
 
 insertGruposSQL.prototype.inputgrupos = function () {
   const callbackRes = this._callback();
-  callbackRes._dbConnection.query
+    callbackRes._dbConnection.query
     (
-      "INSERT INTO `grupoPerguntas`(`nomeGrupo`, `atividade_id`) VALUES ('" + callbackRes.nomeGrupo + "','" + callbackRes.atividade_id + "')",
+      "INSERT INTO `grupoPerguntas`(`nomeGrupo`, `atividade_id`) VALUES ('" + callbackRes.nomeGrupo + "','" + callbackRes.atividade_id + "')", function(err, result, fields){
+        if (err) {
+          console.log('Erro: ' + err);
+        }else{
+          console.log(result.insertId);
+          callbackRes.res.status(200).send({
+            success: 'Usuário inserido com sucesso',
+            statusCode: 200,
+            data : result
+          });
+        }
+      }
     );
-  callbackRes.res.status(200).send({
-    success: 'Usuário inserido com sucesso',
-    statusCode: 200,
-  });
+}
+
+function insertGrupoPessoasSQL(dbConnection, callback) {
+  this._dbConnection = dbConnection;
+  this._callback = callback;
+}
+
+
+insertGrupoPessoasSQL.prototype.inputGrupoPessoa = function () {
+  const callbackRes = this._callback();
+    callbackRes._dbConnection.query
+    (
+      "INSERT INTO `grupoPessoas`(`nomeGrupo`, `id_atividade`) VALUES ('"+callbackRes.nomeGrupo+"','"+callbackRes.id_atividade+"')", function(err, result, fields){
+        if (err) {
+          console.log('Erro: ' + err);
+        }else{
+          console.log(result.insertId);
+          callbackRes.res.status(200).send({
+            success: 'Grupo de pessoas inserido com sucesso',
+            statusCode: 200,
+            data : result
+          });
+        }
+      }
+    );
+}
+
+
+function insertPerguntaSQL(dbConnection, callback) {
+  this._dbConnection = dbConnection;
+  this._callback = callback;
+}
+
+
+insertPerguntaSQL.prototype.inputPergunta = function () {
+  console.log('chegou aqui!');
+  const callbackRes = this._callback();
+    callbackRes._dbConnection.query
+    (
+      "INSERT INTO `perguntas`(`enunciado`, `alternativaA`, `alternativaB`, `alternativaC`, `alternativaD`, `altCorreta`, `grupoPerguntas_id`) VALUES ('"+ callbackRes.enunciado+ "','" +callbackRes.alternativaA+ "','" +callbackRes.alternativaB+ "','" +callbackRes.alternativaC+ "','" +callbackRes.alternativaD+ "','" +callbackRes.altCorreta+ "','" +callbackRes.grupoPerguntas_id+ "')", function(err, result, fields){
+        if (err) {
+          console.log('Erro: ' + err);
+        }else{
+          console.log(result.insertId);
+          callbackRes.res.status(200).send({
+            success: 'Usuário inserido com sucesso',
+            statusCode: 200,
+            data : result
+          });
+        }
+      }
+    );
+}
+
+function insertIntegrantesSQL(dbConnection, callback) {
+  this._dbConnection = dbConnection;
+  this._callback = callback;
+}
+
+
+insertIntegrantesSQL.prototype.inputIntegrantes = function () {
+  const callbackRes = this._callback();
+    callbackRes._dbConnection.query
+    (
+      "INSERT INTO `integrante`(`nome`, `email`, `RA`, `idGrupo`) VALUES ('" + callbackRes.nome+"','"+callbackRes.email+"','"+callbackRes.RA+"','"+callbackRes.idGrupo+"')", function(err, result, fields){
+        if (err) {
+          console.log('Erro: ' + err);
+        }else{
+          console.log(result.insertId);
+          callbackRes.res.status(200).send({
+            success: 'Integrante inserido com sucesso',
+            statusCode: 200,
+            data : result
+          });
+        }
+      }
+    );
 }
 
 function PerguntasSQL(dbConnection, callback) {
