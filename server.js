@@ -233,9 +233,9 @@ var dbConnection = function () {
         }*/
         {
           host: 'remotemysql.com',
-          user: 'kIfd1zU98D',
-          password: 'XaWzzW5Vvu',
-          database: 'kIfd1zU98D',
+          user: 'lMQkPgIdBK',
+          password: 'OSOnu5R4Ou',
+          database: 'lMQkPgIdBK',
           multipleStatements: true,
         }
     )
